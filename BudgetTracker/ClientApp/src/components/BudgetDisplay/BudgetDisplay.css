@@ -1,0 +1,33 @@
+.date {
+  margin-right: 50px;
+}
+
+.status {
+  margin-top: 15px;
+  border-radius: 15px;
+  background-color: white;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 20px;
+}
+
+.no-wallet {
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 20px;
+  border-radius: 15px;
+}
+
+.budget-list {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
