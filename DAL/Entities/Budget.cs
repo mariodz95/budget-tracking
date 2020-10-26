@@ -1,5 +1,5 @@
-﻿using BudgetTracker.Entities;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DAL.Entities
 {
@@ -9,5 +9,6 @@ namespace DAL.Entities
         public string Currency { get; set; }
         public Guid UserId { get; set; }
         public ApplicationUser User { get; set; }
+        public List<Transaction> Transactions { get; set; }
     }
 }

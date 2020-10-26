@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace DAL.Entities
+namespace BudgetTracker.Model.Common
 {
-    public class Transaction : BaseEntity
+    public interface ITransactionModel : IBaseModel
     {
         public string Name { get; set; }
         public string Category { get; set; }
         public float Value { get; set; }
         public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public IApplicationUser User { get; set; }
         public Guid BudgetId { get; set; }
-        public Budget Budget { get; set; }
+        public IBudgetModel Budget { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using BudgetTracker.Entities;
-using DAL.Entities;
+﻿using DAL.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +19,13 @@ namespace BudgetTracker.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Budget>()
-                .HasIndex(p => new { p.Name, p.Value });
+                .HasIndex(p => new { p.Name });
+
+            modelBuilder.Entity<Transaction>()
+                .HasIndex(p => new { p.Name, p.Category, p.Value });
         }
 
         public DbSet<Budget> Budgets { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }

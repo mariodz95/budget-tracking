@@ -9,6 +9,7 @@ namespace BudgetTracker.Repository
         public RepositoryProfile()
         {
             CreateMap<Budget, IBudgetModel>().ReverseMap();
+            CreateMap<Transaction, ITransactionModel>().ReverseMap();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DAL.Migrations
+namespace BudgetTracker.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -187,23 +187,53 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Budget",
+                name: "Budgets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Value = table.Column<float>(nullable: false),
+                    Currency = table.Column<string>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false),
                     UserId1 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Budget", x => x.Id);
+                    table.PrimaryKey("PK_Budgets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Budget_AspNetUsers_UserId1",
+                        name: "FK_Budgets_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Category = table.Column<string>(nullable: true),
+                    Value = table.Column<float>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    UserId1 = table.Column<string>(nullable: true),
+                    BudgetId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Budgets_BudgetId",
+                        column: x => x.BudgetId,
+                        principalTable: "Budgets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_UserId1",
                         column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -250,14 +280,14 @@ namespace DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Budget_UserId1",
-                table: "Budget",
-                column: "UserId1");
+                name: "IX_Budgets_Name",
+                table: "Budgets",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Budget_Name_Value",
-                table: "Budget",
-                columns: new[] { "Name", "Value" });
+                name: "IX_Budgets_UserId1",
+                table: "Budgets",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
@@ -279,6 +309,21 @@ namespace DAL.Migrations
                 name: "IX_PersistedGrants_SubjectId_ClientId_Type",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "ClientId", "Type" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_BudgetId",
+                table: "Transactions",
+                column: "BudgetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_UserId1",
+                table: "Transactions",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_Name_Category_Value",
+                table: "Transactions",
+                columns: new[] { "Name", "Category", "Value" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -299,16 +344,19 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Budget");
-
-            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Budgets");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

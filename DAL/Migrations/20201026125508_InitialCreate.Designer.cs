@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DAL.Migrations
+namespace BudgetTracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201024093221_AddCurrencyFieldToBudgetTable")]
-    partial class AddCurrencyFieldToBudgetTable
+    [Migration("20201026125508_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BudgetTracker.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("DAL.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -101,8 +101,41 @@ namespace DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Budgets");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BudgetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
@@ -118,11 +151,13 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BudgetId");
+
                     b.HasIndex("UserId1");
 
-                    b.HasIndex("Name", "Value");
+                    b.HasIndex("Name", "Category", "Value");
 
-                    b.ToTable("Budgets");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -344,8 +379,21 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Budget", b =>
                 {
-                    b.HasOne("BudgetTracker.Entities.ApplicationUser", "User")
+                    b.HasOne("DAL.Entities.ApplicationUser", "User")
                         .WithMany("Budgets")
+                        .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Transaction", b =>
+                {
+                    b.HasOne("DAL.Entities.Budget", "Budget")
+                        .WithMany("Transactions")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.ApplicationUser", "User")
+                        .WithMany("Transactions")
                         .HasForeignKey("UserId1");
                 });
 
@@ -360,7 +408,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BudgetTracker.Entities.ApplicationUser", null)
+                    b.HasOne("DAL.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -369,7 +417,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BudgetTracker.Entities.ApplicationUser", null)
+                    b.HasOne("DAL.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -384,7 +432,7 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BudgetTracker.Entities.ApplicationUser", null)
+                    b.HasOne("DAL.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -393,7 +441,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BudgetTracker.Entities.ApplicationUser", null)
+                    b.HasOne("DAL.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

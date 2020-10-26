@@ -1,12 +1,12 @@
 using Autofac;
 using AutoMapper;
 using BudgetTracker.Data;
-using BudgetTracker.Entities;
 using BudgetTracker.Models;
 using BudgetTracker.Repository;
 using BudgetTracker.Repository.Common;
 using BudgetTracker.Service;
 using BudgetTracker.Service.Common;
+using DAL.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +29,9 @@ namespace BudgetTracker
         {
             builder.RegisterType<BudgetService>().As<IBudgetService>();
             builder.RegisterType<BudgetRepository>().As<IBudgetRepository>();
+
+            builder.RegisterType<TransactionRepository>().As<ITransactionRepository>();
+            builder.RegisterType<TransactionService>().As<ITransactionService>();
 
             // This will all go in the ROOT CONTAINER and is NOT TENANT SPECIFIC.
             var config = new MapperConfiguration(cfg =>

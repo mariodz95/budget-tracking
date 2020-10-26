@@ -8,7 +8,6 @@ import "./WalletForm.css"
 
 const WalletForm = (props) => {
     const [selectedOption, setSelectedOption] = useState(0);
-    const [wallet, setWallet] = useState(0);
     const [budgetName, setBudgetName] = useState(0);
 
     const handleSubmit = (event) => {

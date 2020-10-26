@@ -8,6 +8,7 @@ namespace BudgetTracker.Models
         public WebAppProfiles()
         {
             CreateMap<IBudgetModel, BudgetViewModel>().ReverseMap();
+            CreateMap<ITransactionModel, TransactionViewModel>().ReverseMap();
         }
     }
 }

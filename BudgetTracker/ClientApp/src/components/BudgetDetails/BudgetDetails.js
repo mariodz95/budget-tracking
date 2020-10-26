@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import Filters from "./../Filters/Filters";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -6,22 +6,52 @@ import { AiOutlineMinusCircle } from "react-icons/ai";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button } from 'react-bootstrap';
-import {budgetService} from "./../../services/budgetService";
+import {DisplayModal} from "./DisplayModal";
+import {transactionService} from "./../../services/transactionService";
+import ListOfTransactions from "./ListOfTransactions";
 
 let date = new Date();
 
 const BudgetDetails = (props) => {
+    const [show, setShow] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(0);
+    const [transactionNote, setTransactionNote] = useState(0);
+    const [incomeValue, setIncomeValue] = useState(0);
+    const [newTransaction, setNewTransaction] = useState(0);
+    const [listOfTransactions, setListOfTransactions] = useState(0);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const createTransaction = () => {
+        transactionService.create({name: transactionNote, category: selectedOption.label, value: Number(incomeValue), budgetId: props.budget.value}).then(
+            function(data){
+                setNewTransaction(data);
+            });
+    }
 
     useEffect(() => {
-        console.log("props", props);
-
-      }, [props]);
+        transactionService.getAll(props.walletList[0].id).then(function(data){
+            setListOfTransactions(data);
+        });
+      }, []);
 
     return (
         <div>
+            {console.log("props", props)}
+            <DisplayModal 
+                show={show} 
+                handleClose={handleClose} đ
+                selectedOption={selectedOption} 
+                setSelectedOption={setSelectedOption}
+                setTransactionNote={setTransactionNote}
+                createTransaction={createTransaction}
+                setIncomeValue={setIncomeValue}
+                />
+
             <Row>
                 <Col sm={8}>
-                    <Button variant="success"><IoIosAddCircleOutline/> Cash incoming</Button >
+                    <Button variant="success" onClick={handleShow}><IoIosAddCircleOutline/> Cash incoming</Button >
                     <Button variant="danger"><AiOutlineMinusCircle /> Cash outgoing</Button >
                 </Col>
                  <Col sm={4}>
@@ -50,6 +80,7 @@ const BudgetDetails = (props) => {
                     </Col>
                 </Row>
             </div>
+            <ListOfTransactions listOfTransactions={listOfTransactions}/>
         </div>
     );
 };

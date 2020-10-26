@@ -33,7 +33,6 @@ const BudgetDisplay = () => {
 
     return (
         <div className="budget">
-            {console.log("walletList", walletList)}
             {walletList === 0 || walletList === undefined ? 
             <React.Fragment>
                 <div className="no-wallet">
@@ -51,7 +50,7 @@ const BudgetDisplay = () => {
                         />
                     </Col>
                 </Row>
-                <BudgetDetails budget={selectedOption}/>
+                <BudgetDetails budget={selectedOption} walletList={walletList} />
             </React.Fragment>
             }
         </div>
