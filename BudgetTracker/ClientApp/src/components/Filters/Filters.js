@@ -5,15 +5,10 @@ import Col from 'react-bootstrap/Col';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import {categories} from "./../../helpers/categories";
+import Form from 'react-bootstrap/Form';
 import "./Filters.css"
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
-
-const Filters = () => {
+const Filters = (props) => {
     return (
         <div className="filters">
             <p className="filter-text">Filters</p>
@@ -21,23 +16,21 @@ const Filters = () => {
                 <Col xs={3}>
                     <p>By category</p>
                     <Select
-                        value={"selectedOption"}
+                        value={props.selectedCategory}
                         options={categories}
+                        onChange={props.handleCategoryChange}
                     />
                 </Col>
                 <Col xs={3}>
                     <p>By people</p>
                     <Select
                         value={"selectedOption"}
-                        options={options}
+                        options={categories}
                     />
                 </Col>
                 <Col xs={3}>
                     <p>By note</p>
-                    <Select
-                        value={"selectedOption"}
-                        options={options}
-                    />
+                     <Form.Control type="text" name='filter' placeholder="Filter by specific keyword" onChange={props.handleChange}></Form.Control>
                 </Col>
                 <Col xs={3}>
                     <p>By amount</p>

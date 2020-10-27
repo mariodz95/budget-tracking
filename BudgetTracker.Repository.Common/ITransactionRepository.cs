@@ -8,6 +8,6 @@ namespace BudgetTracker.Repository.Common
     public interface ITransactionRepository
     {
         Task<ITransactionModel> CreateAsync(ITransactionModel transaction);
-        Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetID);
+        Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetID, DateTime startDate, DateTime endDate, string search, string category);
     }
 }

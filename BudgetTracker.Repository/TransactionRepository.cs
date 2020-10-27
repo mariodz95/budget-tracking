@@ -33,9 +33,25 @@ namespace BudgetTracker.Repository
             return transaction;
         }
 
-        public async Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetID)
+        public async Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetID, DateTime startDate, DateTime endDate, string search, string category)
         {
-           var transactionList = await context.Transactions.Where(t => t.BudgetId == budgetID).ToListAsync();
+            IQueryable<Transaction> query = context.Transactions;
+
+            if(search != "null" && search != null)
+            {
+                query = query.Where(t => t.Name.Contains(search));
+            }
+
+            if (category != "null" && category != null)
+            {
+                query = query.Where(t => t.Category == category);
+            }
+
+            query.Where(t => t.BudgetId == budgetID && t.DateCreated > startDate && t.DateCreated < endDate)
+                 .OrderByDescending(t => t.DateCreated);
+
+            var transactionList = await query.AsNoTracking().ToListAsync();
+
             return mapper.Map<IEnumerable<ITransactionModel>>(transactionList);
         }
     }

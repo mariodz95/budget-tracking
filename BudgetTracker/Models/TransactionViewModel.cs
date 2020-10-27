@@ -9,5 +9,6 @@ namespace BudgetTracker.Models
         public float Value { get; set; }
         public Guid UserId { get; set; }
         public Guid BudgetId { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

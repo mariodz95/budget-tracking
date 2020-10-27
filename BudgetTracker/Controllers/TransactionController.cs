@@ -44,10 +44,10 @@ namespace BudgetTracker.Controllers
             return Ok(mapper.Map<TransactionViewModel>(result));
         }
 
-        [HttpGet("getall/{budgetId}")]
-        public async Task<IActionResult> GetTransactionList(Guid budgetId)
+        [HttpGet("getall/{budgetId}/{startDate}/{endDate}/{search?}/{category?}")]
+        public async Task<IActionResult> GetTransactionList(Guid budgetId, DateTime startDate, DateTime endDate, string search = null, string category = null) 
         {
-            var result = await transactionService.GetAllAsync(budgetId);
+            var result = await transactionService.GetAllAsync(budgetId, startDate, endDate, search, category);
             return Ok(mapper.Map<IEnumerable<TransactionViewModel>>(result));
         }
     }
