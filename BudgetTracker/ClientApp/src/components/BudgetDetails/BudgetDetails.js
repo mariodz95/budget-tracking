@@ -43,6 +43,7 @@ const BudgetDetails = (props) => {
       .getAll(props.budget[0].id, start._d, end._d)
       .then(function (data) {
         setListOfTransactions(data);
+        calculate(data);
       });
   };
 
@@ -57,6 +58,7 @@ const BudgetDetails = (props) => {
       .then(function (data) {
         setNewTransaction(data);
         setListOfTransactions([data, ...listOfTransactions]);
+        calculate([data, ...listOfTransactions]);
         handleClose();
       });
   };
@@ -73,7 +75,40 @@ const BudgetDetails = (props) => {
       )
       .then(function (data) {
         setListOfTransactions(data);
+        calculate(data);
       });
+  };
+
+  const calculate = (data) => {
+    setTotalBalance(
+      data.reduce((totalBalance, item) => totalBalance + item.value, 0)
+    );
+    setTotalPeriodIncome(
+      data.reduce(function (totalIncome, item) {
+        return item.value > 0 ? totalIncome + item.value : totalIncome;
+      }, 0)
+    );
+    setTotalPeriodExpenses(
+      data.reduce(function (totalIncome, item) {
+        return item.value < 0 ? totalIncome + item.value : totalIncome;
+      }, 0)
+    );
+    setLowestNumber(
+      Math.min.apply(
+        Math,
+        data.map(function (o) {
+          return o.value;
+        })
+      )
+    );
+    setHighestNumber(
+      Math.max.apply(
+        Math,
+        data.map(function (o) {
+          return o.value;
+        })
+      )
+    );
   };
 
   const handleChange = (event) => {
@@ -88,11 +123,11 @@ const BudgetDetails = (props) => {
       )
       .then(function (data) {
         setListOfTransactions(data);
+        calculate(data);
       });
   };
 
   const handleDelete = (item) => {
-    console.log("evenet", item);
     transactionService
       ._delete(item.id)
       .then(
@@ -100,6 +135,7 @@ const BudgetDetails = (props) => {
           listOfTransactions.filter((x) => x.id !== item.id)
         )
       );
+    calculate(listOfTransactions.filter((x) => x.id !== item.id));
   };
 
   const handleValueChange = (sliderValues) => {
@@ -112,38 +148,10 @@ const BudgetDetails = (props) => {
       .getAll(props.budget[0].id, startDate, endDate, null, null)
       .then(function (data) {
         setListOfTransactions(data);
-        setTotalBalance(
-          data.reduce((totalBalance, item) => totalBalance + item.value, 0)
-        );
-        setTotalPeriodIncome(
-          data.reduce(function (totalIncome, item) {
-            return item.value > 0 ? totalIncome + item.value : totalIncome;
-          }, 0)
-        );
-        setTotalPeriodExpenses(
-          data.reduce(function (totalIncome, item) {
-            return item.value < 0 ? totalIncome + item.value : totalIncome;
-          }, 0)
-        );
-        setLowestNumber(
-          Math.min.apply(
-            Math,
-            data.map(function (o) {
-              return o.value;
-            })
-          )
-        );
-        setHighestNumber(
-          Math.max.apply(
-            Math,
-            data.map(function (o) {
-              return o.value;
-            })
-          )
-        );
+        calculate(data);
         setLoading(false);
       });
-  }, [props.budget[0]]);
+  }, [props]);
   return (
     <div>
       <DisplayModal

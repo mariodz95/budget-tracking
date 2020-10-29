@@ -11,8 +11,6 @@ import "./Filters.css";
 const Filters = (props) => {
   return (
     <div className="filters">
-      {console.log("budget", props)}
-
       <p className="filter-text">Filters</p>
       <Row>
         <Col xs={4}>
