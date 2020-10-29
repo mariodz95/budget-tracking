@@ -19,15 +19,11 @@ async function create(transaction){
 }
 
 async function getAll(budgetId, startDate, endDate, search, category){
-    console.log("search", search);
-    console.log("category", category);
-
     const token = await authService.getAccessToken();
     const requestOptions = {
         headers: { "Content-Type": "application/json",'Authorization': `Bearer ${token}`},
     };
     const response = await fetch(`transaction/getall/${budgetId}/${startDate.toISOString()}/${endDate.toISOString()}/${search}/${category}`, requestOptions);
-    console.log("responmse", response);
     const data = await response.json();
     return data;
   }

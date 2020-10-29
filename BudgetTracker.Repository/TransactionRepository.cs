@@ -5,7 +5,6 @@ using BudgetTracker.Repository.Common;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,11 +32,11 @@ namespace BudgetTracker.Repository
             return transaction;
         }
 
-        public async Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetID, DateTime startDate, DateTime endDate, string search, string category)
+        public async Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetId, DateTime startDate, DateTime endDate, string search, string category)
         {
             IQueryable<Transaction> query = context.Transactions;
 
-            if(search != "null" && search != null)
+            if (search != "null" && search != null)
             {
                 query = query.Where(t => t.Name.Contains(search));
             }
@@ -47,10 +46,9 @@ namespace BudgetTracker.Repository
                 query = query.Where(t => t.Category == category);
             }
 
-            query.Where(t => t.BudgetId == budgetID && t.DateCreated > startDate && t.DateCreated < endDate)
-                 .OrderByDescending(t => t.DateCreated);
-
-            var transactionList = await query.AsNoTracking().ToListAsync();
+            var transactionList = await query.AsNoTracking()
+                .Where(t => t.BudgetId == budgetId && t.DateCreated > startDate && t.DateCreated < endDate)
+                 .OrderByDescending(t => t.DateCreated).ToListAsync();
 
             return mapper.Map<IEnumerable<ITransactionModel>>(transactionList);
         }
