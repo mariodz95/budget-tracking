@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BudgetTracker.Model.Common;
 using BudgetTracker.Models;
 using BudgetTracker.Service.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BudgetTracker.Controllers
@@ -45,10 +43,17 @@ namespace BudgetTracker.Controllers
         }
 
         [HttpGet("getall/{budgetId}/{startDate}/{endDate}/{search?}/{category?}")]
-        public async Task<IActionResult> GetTransactionList(Guid budgetId, DateTime startDate, DateTime endDate, string search = null, string category = null) 
+        public async Task<IActionResult> GetTransactionList(Guid budgetId, DateTime startDate, DateTime endDate, string search = null, string category = null)
         {
             var result = await transactionService.GetAllAsync(budgetId, startDate, endDate, search, category);
             return Ok(mapper.Map<IEnumerable<TransactionViewModel>>(result));
+        }
+
+        [HttpGet("delete/{transactionId}")]
+        public async Task<IActionResult> Delete(Guid transactionId)
+        {
+            var deletedTransaction = await transactionService.DeleteAsync(transactionId);
+            return Ok(mapper.Map<TransactionViewModel>(deletedTransaction));
         }
     }
 }

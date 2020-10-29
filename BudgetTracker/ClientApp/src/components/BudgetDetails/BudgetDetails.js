@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import Filters from "./../Filters/Filters";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { AiOutlineMinusCircle } from "react-icons/ai";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Button } from "react-bootstrap";
@@ -90,6 +89,17 @@ const BudgetDetails = (props) => {
       .then(function (data) {
         setListOfTransactions(data);
       });
+  };
+
+  const handleDelete = (item) => {
+    console.log("evenet", item);
+    transactionService
+      ._delete(item.id)
+      .then(
+        setListOfTransactions(
+          listOfTransactions.filter((x) => x.id !== item.id)
+        )
+      );
   };
 
   const handleValueChange = (sliderValues) => {
@@ -233,6 +243,7 @@ const BudgetDetails = (props) => {
       <ListOfTransactions
         listOfTransactions={listOfTransactions}
         currency={props.budget[0].currency}
+        handleDelete={handleDelete}
       />
     </div>
   );

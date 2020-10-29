@@ -7,17 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker", "BudgetTrac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.DAL", "DAL\BudgetTracker.DAL.csproj", "{83FF1F1C-3827-403E-8C63-ECF8A853BD91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Repository.Common", "BudgetTracker.Repository.Common\BudgetTracker.Repository.Common.csproj", "{8237FB74-DE38-40FD-9457-F2032E7D1F9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.Repository.Common", "BudgetTracker.Repository.Common\BudgetTracker.Repository.Common.csproj", "{8237FB74-DE38-40FD-9457-F2032E7D1F9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Repository", "BudgetTracker.Repository\BudgetTracker.Repository.csproj", "{D76ECAFE-FDAD-4772-8B71-D8C31D6B02D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.Repository", "BudgetTracker.Repository\BudgetTracker.Repository.csproj", "{D76ECAFE-FDAD-4772-8B71-D8C31D6B02D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Model.Common", "BudgetTracker.Model.Common\BudgetTracker.Model.Common.csproj", "{5FE46D51-FB68-42D1-9134-51112E997C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.Model.Common", "BudgetTracker.Model.Common\BudgetTracker.Model.Common.csproj", "{5FE46D51-FB68-42D1-9134-51112E997C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Model", "BudgetTracker.Model\BudgetTracker.Model.csproj", "{D9BD652B-01C0-4D1D-B9A1-27ED2E189B09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.Model", "BudgetTracker.Model\BudgetTracker.Model.csproj", "{D9BD652B-01C0-4D1D-B9A1-27ED2E189B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Service.Common", "BudgetTracker.Service.Common\BudgetTracker.Service.Common.csproj", "{55D7FC9D-3573-44F5-8C8A-6751D9D39716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.Service.Common", "BudgetTracker.Service.Common\BudgetTracker.Service.Common.csproj", "{55D7FC9D-3573-44F5-8C8A-6751D9D39716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Service", "BudgetTracker.Service\BudgetTracker.Service.csproj", "{351C953D-298D-40E5-B16F-44831E49CE6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTracker.Service", "BudgetTracker.Service\BudgetTracker.Service.csproj", "{351C953D-298D-40E5-B16F-44831E49CE6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

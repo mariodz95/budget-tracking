@@ -4,6 +4,7 @@ namespace BudgetTracker.Models
 {
     public class TransactionViewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
         public float Value { get; set; }

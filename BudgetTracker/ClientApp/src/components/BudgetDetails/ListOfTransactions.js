@@ -1,6 +1,9 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 import Moment from "moment";
+import { AiOutlineDelete } from "react-icons/ai";
+import { GrUpdate } from "react-icons/gr";
+import { Button } from "react-bootstrap";
 
 import "./ListOfTransactions.css";
 
@@ -33,6 +36,19 @@ const ListOfTransactions = (props) => {
                   >
                     {props.currency}
                   </p>
+                </td>
+                <td>
+                  <Button
+                    className="delete-button"
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={(e) => props.handleDelete(item)}
+                  >
+                    <AiOutlineDelete />
+                  </Button>
+                  <Button variant="outline-info" size="sm">
+                    <GrUpdate />
+                  </Button>
                 </td>
               </tr>
             ))}

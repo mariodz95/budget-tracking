@@ -32,6 +32,14 @@ namespace BudgetTracker.Repository
             return transaction;
         }
 
+        public async Task<ITransactionModel> DeleteAsync(Guid transactionId)
+        {
+            var transaction = await context.Transactions.FindAsync(transactionId);
+            context.Remove(transaction);
+            await context.SaveChangesAsync();
+            return mapper.Map<ITransactionModel>(transaction);
+        }
+
         public async Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetId, DateTime startDate, DateTime endDate, string search, string category)
         {
             IQueryable<Transaction> query = context.Transactions;
