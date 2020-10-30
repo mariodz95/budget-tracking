@@ -55,7 +55,7 @@ export class NavMenu extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/budgets">
-                    Budgets
+                    New Budget
                   </NavLink>
                 </NavItem>
                 <LoginMenu></LoginMenu>

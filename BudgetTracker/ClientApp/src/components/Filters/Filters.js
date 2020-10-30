@@ -31,23 +31,6 @@ const Filters = (props) => {
             onChange={props.handleChange}
           ></Form.Control>
         </Col>
-        <Col xs={4}>
-          <p>By amount</p>
-          <Range
-            min={props.lowestNumber}
-            max={props.highestNumber}
-            onChange={props.handleValueChange}
-            defaultValue={[props.lowestNumber, props.highestNumber]}
-          />
-          <Row>
-            <Col xs={9}>
-              <p>{props.fromValue}</p>
-            </Col>
-            <Col xs={3}>
-              <p>{props.toValue}</p>
-            </Col>
-          </Row>
-        </Col>
       </Row>
     </div>
   );

@@ -187,9 +187,12 @@ const BudgetDetails = (props) => {
       .then(function (data) {
         setListOfTransactions(data);
         calculate(data);
+        setFromValue(lowestNumber);
+        setToValue(highestNumber);
         setLoading(false);
       });
-  }, [props]);
+  }, []);
+
   return (
     <div>
       <DisplayModal
