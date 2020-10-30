@@ -55,5 +55,13 @@ namespace BudgetTracker.Controllers
             var deletedTransaction = await transactionService.DeleteAsync(transactionId);
             return Ok(mapper.Map<TransactionViewModel>(deletedTransaction));
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(TransactionViewModel transaction)
+        {
+            var mappedTransaction = mapper.Map<ITransactionModel>(transaction);
+            var result = await transactionService.UpdateAsync(mappedTransaction);
+            return Ok(mapper.Map<TransactionViewModel>(result));
+        }
     }
 }

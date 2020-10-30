@@ -36,5 +36,10 @@ namespace BudgetTracker.Service
         {
             return await transactionRepository.GetAllAsync(budgetId, startDate, endDate, search, category);
         }
+
+        public async Task<ITransactionModel> UpdateAsync(ITransactionModel transaction)
+        {
+            return await transactionRepository.UpdateAsync(transaction);
+        }
     }
 }

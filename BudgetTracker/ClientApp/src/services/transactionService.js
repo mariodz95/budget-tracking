@@ -4,6 +4,7 @@ export const transactionService = {
   create,
   getAll,
   _delete,
+  update,
 };
 
 async function create(transaction) {
@@ -50,6 +51,21 @@ async function _delete(transactionId) {
     `transaction/delete/${transactionId}`,
     requestOptions
   );
+  const data = await response.json();
+  return data;
+}
+
+async function update(updatedTransaction) {
+  const token = await authService.getAccessToken();
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(updatedTransaction),
+  };
+  const response = await fetch(`transaction`, requestOptions);
   const data = await response.json();
   return data;
 }

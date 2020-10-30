@@ -10,5 +10,6 @@ namespace BudgetTracker.Repository.Common
         Task<ITransactionModel> CreateAsync(ITransactionModel transaction);
         Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetID, DateTime startDate, DateTime endDate, string search, string category);
         Task<ITransactionModel> DeleteAsync(Guid transactionId);
+        Task<ITransactionModel> UpdateAsync(ITransactionModel transaction);
     }
 }

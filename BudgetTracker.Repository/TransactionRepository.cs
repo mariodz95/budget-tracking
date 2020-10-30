@@ -25,7 +25,6 @@ namespace BudgetTracker.Repository
 
         public async Task<ITransactionModel> CreateAsync(ITransactionModel transaction)
         {
-
             var newTransaction = mapper.Map<Transaction>(transaction);
             await context.Transactions.AddAsync(newTransaction);
             await context.SaveChangesAsync();
@@ -38,6 +37,14 @@ namespace BudgetTracker.Repository
             context.Remove(transaction);
             await context.SaveChangesAsync();
             return mapper.Map<ITransactionModel>(transaction);
+        }
+
+        public async Task<ITransactionModel> UpdateAsync(ITransactionModel transaction)
+        {
+            var updatedTransaction = mapper.Map<Transaction>(transaction);
+            context.Update(updatedTransaction);
+            await context.SaveChangesAsync();
+            return transaction;
         }
 
         public async Task<IEnumerable<ITransactionModel>> GetAllAsync(Guid budgetId, DateTime startDate, DateTime endDate, string search, string category)

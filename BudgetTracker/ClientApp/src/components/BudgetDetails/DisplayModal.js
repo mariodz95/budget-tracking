@@ -20,6 +20,11 @@ export const DisplayModal = (props) => {
                 <Form.Control
                   type="text"
                   placeholder="Note"
+                  defaultValue={
+                    props.updatedTransaction === 0
+                      ? ""
+                      : props.updatedTransaction.name
+                  }
                   onChange={(e) => props.setTransactionNote(e.target.value)}
                 />
               </Col>
@@ -33,11 +38,15 @@ export const DisplayModal = (props) => {
                 <Form.Control
                   type="text"
                   placeholder="Value"
+                  defaultValue={
+                    props.updatedTransaction === 0
+                      ? ""
+                      : props.updatedTransaction.value
+                  }
                   onChange={(e) => props.setIncomeValue(e.target.value)}
                 />
               </Col>
             </Form.Group>
-
             <Form.Group as={Row} controlId="formHorizontalCurrency">
               <Form.Label column sm={2}>
                 Category

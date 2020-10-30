@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import { Button } from "react-bootstrap";
 import { DisplayModal } from "./DisplayModal";
 import { transactionService } from "./../../services/transactionService";
+import { categories } from "./../../helpers/categories";
 import ListOfTransactions from "./ListOfTransactions";
 
 let date = new Date();
@@ -16,7 +17,6 @@ const BudgetDetails = (props) => {
   const [selectedOption, setSelectedOption] = useState(0);
   const [transactionNote, setTransactionNote] = useState(0);
   const [incomeValue, setIncomeValue] = useState(0);
-  const [newTransaction, setNewTransaction] = useState(0);
   const [listOfTransactions, setListOfTransactions] = useState(0);
   const [totalBalance, setTotalBalance] = useState(0);
   const [totalPeriodIncome, setTotalPeriodIncome] = useState(0);
@@ -34,8 +34,12 @@ const BudgetDetails = (props) => {
   const [fromValue, setFromValue] = useState(0);
   const [toValue, setToValue] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [updatedTransaction, setUpdatedTransaction] = useState(0);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setUpdatedTransaction(0);
+  };
   const handleShow = () => setShow(true);
 
   const handleCallback = (start, end, label) => {
@@ -47,20 +51,54 @@ const BudgetDetails = (props) => {
       });
   };
 
-  const createTransaction = () => {
-    transactionService
-      .create({
-        name: transactionNote,
-        category: selectedOption.label,
-        value: Number(incomeValue),
-        budgetId: props.budget[0].id,
+  const handleUpdate = (item) => {
+    setShow(true);
+    setSelectedOption(
+      categories.find((element) => {
+        return element.value === item.category;
       })
-      .then(function (data) {
-        setNewTransaction(data);
-        setListOfTransactions([data, ...listOfTransactions]);
-        calculate([data, ...listOfTransactions]);
-        handleClose();
-      });
+    );
+    setUpdatedTransaction(item);
+  };
+
+  const createTransaction = () => {
+    if (updatedTransaction === 0) {
+      transactionService
+        .create({
+          name: transactionNote,
+          category: selectedOption.label,
+          value: Number(incomeValue),
+          budgetId: props.budget[0].id,
+        })
+        .then(function (data) {
+          setListOfTransactions([data, ...listOfTransactions]);
+          calculate([data, ...listOfTransactions]);
+          handleClose();
+        });
+    } else {
+      transactionService
+        .update({
+          name:
+            transactionNote === 0 ? updatedTransaction.name : transactionNote,
+          category: selectedOption.label,
+          value:
+            incomeValue === 0 ? updatedTransaction.value : Number(incomeValue),
+          budgetId: props.budget[0].id,
+          dateCreated: updatedTransaction.dateCreated,
+          id: updatedTransaction.id,
+          userId: updatedTransaction.userId,
+        })
+        .then(function (data) {
+          setListOfTransactions(
+            listOfTransactions.map((element) => {
+              return data.id === element.id ? data : element;
+            })
+          );
+
+          calculate([data, ...listOfTransactions]);
+          handleClose();
+        });
+    }
   };
 
   const handleCategoryChange = (selected) => {
@@ -162,6 +200,7 @@ const BudgetDetails = (props) => {
         setTransactionNote={setTransactionNote}
         createTransaction={createTransaction}
         setIncomeValue={setIncomeValue}
+        updatedTransaction={updatedTransaction}
       />
 
       <Row>
@@ -252,6 +291,7 @@ const BudgetDetails = (props) => {
         listOfTransactions={listOfTransactions}
         currency={props.budget[0].currency}
         handleDelete={handleDelete}
+        handleUpdate={handleUpdate}
       />
     </div>
   );

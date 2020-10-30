@@ -46,7 +46,11 @@ const ListOfTransactions = (props) => {
                   >
                     <AiOutlineDelete />
                   </Button>
-                  <Button variant="outline-info" size="sm">
+                  <Button
+                    variant="outline-info"
+                    size="sm"
+                    onClick={(e) => props.handleUpdate(item)}
+                  >
                     <GrUpdate />
                   </Button>
                 </td>
