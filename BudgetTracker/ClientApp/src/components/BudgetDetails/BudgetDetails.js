@@ -31,8 +31,6 @@ const BudgetDetails = (props) => {
   );
   const [lowestNumber, setLowestNumber] = useState(0);
   const [highestNumber, setHighestNumber] = useState(0);
-  const [fromValue, setFromValue] = useState(0);
-  const [toValue, setToValue] = useState(0);
   const [loading, setLoading] = useState(true);
   const [updatedTransaction, setUpdatedTransaction] = useState(0);
 
@@ -176,22 +174,15 @@ const BudgetDetails = (props) => {
     calculate(listOfTransactions.filter((x) => x.id !== item.id));
   };
 
-  const handleValueChange = (sliderValues) => {
-    setFromValue(sliderValues[0]);
-    setToValue(sliderValues[1]);
-  };
-
   useEffect(() => {
     transactionService
       .getAll(props.budget[0].id, startDate, endDate, null, null)
       .then(function (data) {
         setListOfTransactions(data);
         calculate(data);
-        setFromValue(lowestNumber);
-        setToValue(highestNumber);
         setLoading(false);
       });
-  }, []);
+  }, [props]);
 
   return (
     <div>
@@ -231,9 +222,6 @@ const BudgetDetails = (props) => {
             selectedCategory={selectedCategory}
             lowestNumber={lowestNumber}
             highestNumber={highestNumber}
-            fromValue={fromValue}
-            toValue={toValue}
-            handleValueChange={handleValueChange}
           />
         </React.Fragment>
       )}
